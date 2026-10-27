@@ -8,14 +8,17 @@
     --cinza: #818181;
     --branco: #ffffff;
 }
+
 body{
     width: 97.7vw;
     min-width: 243px;
     padding: 0;
     margin: 0;
     height: 98.3vh;
-    border: 0.3rem solid;
-}main{
+    border: 0.3rem solid var(--azul-100);
+}
+
+main{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,22 +26,56 @@ body{
     width: 100%;
     height: 100%;
 }
+
 .container{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 0.03rem solid;
+    border: 0.03rem solid var(--azul-300);
     background: var(--azul-100);
     width: 70%;
     height: 90%;
-}#btnEsquerda, #btnDireita{
-    cursor:pointer;
+}
+
+/* Ajuste nos botões para pegar tanto a div/article quanto a tag <button> */
+#btnEsquerda, #btnDireita, #btnEsquerda button, #btnDireita button {
+    cursor: pointer;
     padding: 1rem;
     user-select: none;
     border: none;
     border-radius: 50%;
     background-color: transparent;
-}#carrossel{
-    width: 50%;
-    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CONFIGURAÇÃO DO CARROSSEL */
+#carrossel {
+    width: 90%;
+    height: 60%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Esconde o excesso se a imagem for maior que o container */
+}
+
+/* Esconde todas as divs de imagem do carrossel por padrão */
+#carrossel > div {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* Exibe apenas a div que receber a classe 'ativa' pelo JS */
+#carrossel > div.ativa {
+    display: block;
+}
+
+/* Ajusta as imagens para preencherem o espaço sem distorcer */
+#carrossel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

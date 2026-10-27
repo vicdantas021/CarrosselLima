@@ -1,44 +1,48 @@
-/testando o background/
-const telaCarrossel = document.getElementById("carrossel");
-const btnEsquerda = document.querySelector('#btnEsquerda');
-const btnDireita = document.querySelector('#btnDireita');
-const cores = [
-    'var(--rosa)',
-    'var(--vermelho-escuro)',
-    'var(--vermelho)'
-];
+// Seleciona todas as divs filhas dentro do container #carrossel
+const itensCarrossel = document.querySelectorAll("#carrossel > div");
+const btnEsquerda = document.getElementById("btnEsquerda");
+const btnDireita = document.getElementById("btnDireita");
 
-/**variável acumuladora de valor**/
 let indiceAtual = 0;
 let temporizador;
 
 function atualizarCarrossel() {
-    telaCarrossel.style.backgroundColor = cores[indiceAtual];
+    // Remove a classe 'ativa' de todas as divs e adiciona só na atual
+    itensCarrossel.forEach((item, index) => {
+        if (index === indiceAtual) {
+            item.classList.add("ativa");
+        } else {
+            item.classList.remove("ativa");
+        }
+    });
 }
-btnDireita.addEventListener("click", () => {
+
+function proximaImagem() {
     indiceAtual++;
-    if(indiceAtual > cores.length){
+    if (indiceAtual >= itensCarrossel.length) {
         indiceAtual = 0;
     }
     atualizarCarrossel();
+    reiniciarTemporizador();
+}
 
-    clearTimeout(temporizador);
-    temporizador = setTimeout(() => {
-    btnDireita.click();
-},3000);
-
-});
-
-btnEsquerda.addEventListener("click", () => {
+function imagemAnterior() {
     indiceAtual--;
-    if(indiceAtual < 0){
-        indiceAtual = cores.length - 1;
-    }  
-    atualizarCarrossel(); 
+    if (indiceAtual < 0) {
+        indiceAtual = itensCarrossel.length - 1;
+    }
+    atualizarCarrossel();
+    reiniciarTemporizador();
+}
 
-     clearTimeout(temporizador);
-        temporizador = setTimeout(() => {
-        btnEsquerda.click();
-        },3000);    
+function reiniciarTemporizador() {
+    clearTimeout(temporizador);
+    temporizador = setTimeout(proximaImagem, 3000);
+}
 
-});
+// Listeners dos cliques nos botões
+btnDireita.addEventListener("click", proximaImagem);
+btnEsquerda.addEventListener("click", imagemAnterior);
+
+// Inicia o temporizador automático ao carregar a página
+reiniciarTemporizador();
